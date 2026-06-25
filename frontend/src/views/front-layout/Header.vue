@@ -21,8 +21,9 @@ const menuList = ref([
   { name: "非遗文物", path: "/front/heritage" },
   { name: "活动中心", path: "/front/activity" },
   { name: "新闻资讯", path: "/front/news" },
-  { name: "非遗宣传", path: "/front/videos" },
-  { name: "意见反馈", path: "/front/feedback" },
+ { name: "非遗宣传", path: "/front/videos" },
+  { name: "实验室预约", path: "/front/labBooking" },
+ { name: "意见反馈", path: "/front/feedback" },
 ]);
 
 // 褰撳墠婵€娲荤殑鑿滃崟
