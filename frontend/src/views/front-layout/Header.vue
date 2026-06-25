@@ -10,12 +10,12 @@ import useUserStore from "../../stores/userStore";
 const router = useRouter();
 const route = useRoute();
 
-// 用户信息
+// 鐢ㄦ埛淇℃伅
 const userInfo = ref(null);
 const isLoggedIn = computed(() => !!userInfo.value);
 const userStore = useUserStore();
 
-// 菜单数据
+// 鑿滃崟鏁版嵁
 const menuList = ref([
   { name: "首页", path: "/front/home" },
   { name: "非遗文物", path: "/front/heritage" },
@@ -25,10 +25,10 @@ const menuList = ref([
   { name: "意见反馈", path: "/front/feedback" },
 ]);
 
-// 当前激活的菜单
+// 褰撳墠婵€娲荤殑鑿滃崟
 const activeMenu = ref("/front/home");
 
-// 获取用户信息
+// 鑾峰彇鐢ㄦ埛淇℃伅
 const getUserInfo = () => {
   const token = userStore.token;
   const user = userStore.userInfo;
@@ -38,23 +38,23 @@ const getUserInfo = () => {
     try {
       userInfo.value = {...user};
     } catch (error) {
-      console.error("解析用户信息失败:", error);
+      console.error("瑙ｆ瀽鐢ㄦ埛淇℃伅澶辫触:", error);
     }
   }
 };
 
-// 菜单点击
+// 鑿滃崟鐐瑰嚮
 const handleMenuClick = (path: string) => {
   activeMenu.value = path;
   router.push(path);
 };
 
-// 登录
+// 鐧诲綍
 const handleLogin = () => {
   router.push("/login");
 };
 
-// 注册
+// 娉ㄥ唽
 const handleRegister = () => {
   router.push("/register");
 };
@@ -68,17 +68,17 @@ const handleLogout = () => {
   router.push("/login");
 };
 
-// 个人中心
+// 涓汉涓績
 const handleProfile = () => {
   router.push("/front/profile");
 };
 
-// 我的报名
+// 鎴戠殑鎶ュ悕
 const handleMyApplications = () => {
   router.push("/front/myApplications");
 };
 
-// 我的收藏
+// 鎴戠殑鏀惰棌
 const handleMyCollect = () => {
   router.push("/front/myCollect");
 };
@@ -95,7 +95,7 @@ watch(() => route.path, newPath => {
 <template>
   <header class="front-header">
     <div class="header-container">
-      <!-- 左侧：Logo + 系统名称 -->
+      <!-- 宸︿晶锛歀ogo + 绯荤粺鍚嶇О -->
       <div class="header-left">
         <div class="logo-section" @click="handleMenuClick('/front')">
           <img src="../../assets/logo.png" alt="Logo" class="logo" />
@@ -103,7 +103,7 @@ watch(() => route.path, newPath => {
         </div>
       </div>
 
-      <!-- 中间：菜单栏 -->
+      <!-- 涓棿锛氳彍鍗曟爮 -->
       <nav class="header-center">
         <ul class="nav-menu">
           <li
@@ -118,15 +118,15 @@ watch(() => route.path, newPath => {
         </ul>
       </nav>
 
-      <!-- 右侧：登录操作 -->
+      <!-- 鍙充晶锛氱櫥褰曟搷浣?-->
       <div class="header-right">
-        <!-- 未登录状态 -->
+        <!-- 鏈櫥褰曠姸鎬?-->
         <div v-if="!isLoggedIn" class="auth-buttons">
-          <el-button type="primary" @click="handleLogin">登录</el-button>
-          <el-button @click="handleRegister">注册</el-button>
+          <el-button type="primary" @click="handleLogin">鐧诲綍</el-button>
+          <el-button @click="handleRegister">娉ㄥ唽</el-button>
         </div>
 
-        <!-- 已登录状态 -->
+        <!-- 宸茬櫥褰曠姸鎬?-->
         <div v-else class="user-info">
           <el-dropdown @command="handleCommand">
             <div class="user-profile">

@@ -13,14 +13,27 @@ const http = axios.create({
   },
 });
 
-// 请求拦截器
-http.interceptors.request.use(
-  (config) => {
-    // 从localStorage获取token
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers["Authorization"] = token;
-    }
+  // 请求拦截器
+  http.interceptors.request.use(
+    (config) => {
+      // 从Pinia persist存储中获取token（persist key为"user"）
+      let token = null;
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        try {
+          const parsed = JSON.parse(userData);
+          token = parsed.token || null;
+        } catch (e) {
+          // ignore parse error
+        }
+      }
+      // 兼容旧格式：直接读取"token" key
+      if (!token) {
+        token = localStorage.getItem("token");
+      }
+      if (token) {
+        config.headers["Authorization"] = token;
+      }
     return config;
   },
   (error) => {

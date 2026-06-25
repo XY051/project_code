@@ -103,6 +103,13 @@ public class FileController {
     public void downloadFile(@PathVariable String fileFullName,
                              HttpServletResponse response) throws IOException {
         String extName = FileUtil.extName(fileFullName);
+        String contentType = "image/jpeg";
+        if ("png".equalsIgnoreCase(extName)) contentType = "image/png";
+        else if ("gif".equalsIgnoreCase(extName)) contentType = "image/gif";
+        else if ("webp".equalsIgnoreCase(extName)) contentType = "image/webp";
+        else if ("svg".equalsIgnoreCase(extName)) contentType = "image/svg+xml";
+        else if ("ico".equalsIgnoreCase(extName)) contentType = "image/x-icon";
+        response.setContentType(contentType);
         String fileUploadPath = getFileUploadPath(fileFullName);
         byte[] bytes = FileUtil.readBytes(fileUploadPath);
         response.addHeader("Content-Disposition", "inline;filename=" + URLEncoder.encode(fileFullName, "UTF-8"));  // 预览

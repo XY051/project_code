@@ -28,6 +28,7 @@ const loginRules = {
 
 const handleLogin = async () => {
   if (!loginFormRef.value) return;
+  if (loading.value) return;  // 防止重复提交
 
   try {
     await loginFormRef.value.validate();
@@ -35,17 +36,19 @@ const handleLogin = async () => {
 
     const res = await http.post("/login", loginForm);
     if (res.code == 200) {
-      (userStore.setToken(res.data.token),
-        userStore.setUserInfo(res.data),
-        userStore.setRoleFlag(res.data.role),
-        ElMessage.success("登录成功"));
+      userStore.setToken(res.data.token);
+      userStore.setUserInfo(res.data);
+      userStore.setRoleFlag(res.data.role);
       if (res.data.role == "admin") {
         await router.push("/");
       } else {
         await router.push("/front/home");
       }
+      ElMessage.success("登录成功");
     } else if (res.code === 520) {
       ElMessage.error("无权限");
+    } else {
+      ElMessage.error(res.msg || "登录失败，请检查用户名和密码");
     }
   } catch (error) {
     console.error("登录失败:", error);

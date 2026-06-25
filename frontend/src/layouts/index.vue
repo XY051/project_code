@@ -32,7 +32,8 @@ const isCollapse = ref(false);
   .aside-container {
     width: 200px;
     height: 100%;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     transition: width 0.3s;
     background-color: #fff;
     border-right: 1px solid #dcdfe6;
