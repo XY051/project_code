@@ -225,11 +225,11 @@ onBeforeUnmount(() => {
     <header class="flex">
       <div class="flex form-item">
         <p class="label-text">标题：</p>
-        <el-input v-model="params.title" placeholder="请输入资讯标题" />
+        <el-input v-model="params.title" placeholder="请输入公告标题" />
       </div>
       <div class="flex form-item">
         <p class="label-text">简介：</p>
-        <el-input v-model="params.intro" placeholder="请输入资讯简介" />
+        <el-input v-model="params.intro" placeholder="请输入公告简介" />
       </div>
       <el-button type="primary" :icon="Search" @click="handleSearch"
         >搜索</el-button
@@ -336,14 +336,14 @@ onBeforeUnmount(() => {
     <el-dialog v-model="visible" :title="dialogTitle" width="800" top="2%" style="max-height: 800px; overflow: hidden; overflow-y: scroll;">
       <el-form :model="form" label-width="120">
         <el-form-item label="标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入资讯标题" />
+          <el-input v-model="form.title" placeholder="请输入公告标题" />
         </el-form-item>
         <el-form-item label="简介" prop="intro">
           <el-input
             v-model="form.intro"
             type="textarea"
             :rows="3"
-            placeholder="请输入资讯简介"
+            placeholder="请输入公告简介"
           />
         </el-form-item>
         <el-form-item label="封面图片" prop="coverUrl">
@@ -392,7 +392,7 @@ onBeforeUnmount(() => {
     <!-- 内容查看弹窗 -->
     <el-dialog
       v-model="contentVisible"
-      title="资讯内容"
+          title="公告内容"
       width="800px"
       :before-close="() => contentVisible = false"
     >

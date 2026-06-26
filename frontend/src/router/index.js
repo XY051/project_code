@@ -26,146 +26,118 @@
            title: "用户管理",
          },
        },
-       {
-         path: "/notice",
-         name: "Notice",
-         component: () => import("@/views/system/notice.vue"),
-         meta: {
-           title: "公告管理",
-         },
-       },
-       {
-         path: "/banner",
-         name: "Banner",
-         component: () => import("@/views/system/banner.vue"),
-         meta: {
-           title: "轮播图管理",
-         },
-       },
-       {
-         path: "/person",
-         name: "Person",
-         component: () => import("@/views/person.vue"),
-         meta: {
-           title: "个人信息",
-         },
-       },
-       {
-         path: "/resourceCategory",
-         name: "ResourceCategory",
-         component: () => import("@/views/system/resourceCategory.vue"),
-         meta: {
-           title: "资源分类管理",
-         },
-       },
-       {
-         path: "/trainingResource",
-         name: "TrainingResource",
-         component: () => import("@/views/system/trainingResource.vue"),
-         meta: {
-           title: "虚拟仿真资源管理",
-         },
-       },
-       {
-         path: "/resources",
-         redirect: "/trainingResource",
-       },
-       {
-         path: "/openApplication",
-         name: "OpenApplication",
-         component: () => import("@/views/system/openApplication.vue"),
-         meta: {
-           title: "共享开放申请管理",
-         },
-       },
-       {
-         path: "/reservation",
-         name: "Reservation",
-         component: () => import("@/views/system/reservation.vue"),
-         meta: {
-           title: "共享开放预约管理",
-         },
-       },
-       {
-         path: "/ichType",
-         name: "IchType",
-         component: () => import("@/views/system/ichType.vue"),
-         meta: {
-           title: "分类管理",
-         },
-       },
-       {
-         path: "/culturalHeritage",
-         name: "CulturalHeritage",
-         component: () => import("@/views/system/culturalHeritage.vue"),
-         meta: {
-           title: "非遗文物管理",
-         },
-       },
-       {
-         path: "/video",
-         name: "Video",
-         component: () => import("@/views/system/video.vue"),
-         meta: {
-           title: "宣传视频管理",
-         },
-       },
-       {
-         path: "/article",
-         name: "Article",
-         component: () => import("@/views/system/article.vue"),
-         meta: {
-           title: "资讯管理",
-         },
-       },
-       {
-         path: "/feedback",
-         name: "Feedback",
-         component: () => import("@/views/system/feedback.vue"),
-         meta: {
-           title: "反馈管理",
-         },
-       },
-       {
-         path: "/collect",
-         name: "Collect",
-         component: () => import("@/views/system/collect.vue"),
-         meta: {
-           title: "收藏管理",
-         },
-       },
-       {
-         path: "/comment",
-         name: "Comment",
-         component: () => import("@/views/system/comment.vue"),
-         meta: {
-           title: "评论管理",
-         },
-       },
-       {
-         path: "/activity",
-         name: "Activity",
-         component: () => import("@/views/system/activity.vue"),
-         meta: {
-           title: "活动管理",
-         },
-       },
-       {
-         path: "/activityApplication",
-         name: "ActivityApplication",
-         component: () => import("@/views/system/activityApplication.vue"),
-         meta: {
-           title: "活动报名管理",
-         },
-       },
-       {
-         path: "/chart",
-         name: "Chart",
-         component: () => import("@/views/system/chart-page.vue"),
-         meta: {
-           title: "数据统计",
-         },
-       },
+        {
+          path: "/notice",
+          name: "Notice",
+          component: () => import("@/views/system/notice.vue"),
+          meta: {
+            title: "实训公告管理",
+          },
+        },
+        {
+          path: "/banner",
+          name: "Banner",
+          component: () => import("@/views/system/banner.vue"),
+          meta: {
+            title: "轮播图管理",
+          },
+        },
+        {
+          path: "/person",
+          name: "Person",
+          component: () => import("@/views/person.vue"),
+          meta: {
+            title: "个人信息",
+          },
+        },
+        {
+          path: "/ichType",
+          name: "IchType",
+          component: () => import("@/views/system/ichType.vue"),
+          meta: {
+            title: "分类管理",
+          },
+        },
+        {
+          path: "/culturalHeritage",
+          name: "CulturalHeritage",
+          component: () => import("@/views/system/culturalHeritage.vue"),
+          meta: {
+            title: "仿真资源管理",
+          },
+        },
+        {
+          path: "/video",
+          name: "Video",
+          component: () => import("@/views/system/video.vue"),
+          meta: {
+            title: "虚拟仿真管理",
+          },
+        },
+        {
+          path: "/article",
+          name: "Article",
+          component: () => import("@/views/system/article.vue"),
+          meta: {
+            title: "实训资讯管理",
+          },
+        },
+        {
+          path: "/feedback",
+          name: "Feedback",
+          component: () => import("@/views/system/feedback.vue"),
+          meta: {
+            title: "反馈管理",
+          },
+        },
+        {
+          path: "/collect",
+          name: "Collect",
+          component: () => import("@/views/system/collect.vue"),
+          meta: {
+            title: "收藏管理",
+          },
+        },
+        {
+          path: "/comment",
+          name: "Comment",
+          component: () => import("@/views/system/comment.vue"),
+          meta: {
+            title: "评论管理",
+          },
+        },
+        {
+          path: "/activity",
+          name: "Activity",
+          component: () => import("@/views/system/activity.vue"),
+          meta: {
+            title: "实训项目管理",
+          },
+        },
+        {
+          path: "/activityApplication",
+          name: "ActivityApplication",
+          component: () => import("@/views/system/activityApplication.vue"),
+          meta: {
+            title: "实验记录管理",
+          },
+        },
+        {
+          path: "/chart",
+          name: "Chart",
+          component: () => import("@/views/system/chart-page.vue"),
+          meta: {
+            title: "数据统计",
+          },
+        },
+        {
+          path: "/efficiency",
+          name: "Efficiency",
+          component: () => import("@/views/system/efficiency.vue"),
+          meta: {
+            title: "效能分析",
+          },
+        },
        {
          path: "/lab",
          name: "Lab",
@@ -218,59 +190,11 @@
          },
        },
        {
-         path: "/front/resources",
-         name: "FrontResources",
-         component: () => import("../views/front/resources.vue"),
-         meta: {
-           title: "虚拟仿真资源",
-         },
-       },
-       {
-         path: "/front/resourceDetail",
-         name: "FrontResourceDetail",
-         component: () => import("../views/front/resource-detail.vue"),
-         meta: {
-           title: "资源详情",
-         },
-       },
-       {
-         path: "/front/openShare",
-         name: "FrontOpenShare",
-         component: () => import("../views/front/open-share.vue"),
-         meta: {
-           title: "共享开放",
-         },
-       },
-       {
-         path: "/front/resourceApply",
-         name: "FrontResourceApply",
-         component: () => import("../views/front/resource-apply.vue"),
-         meta: {
-           title: "资源开放申请",
-         },
-       },
-       {
-         path: "/front/labReserve",
-         name: "FrontLabReserve",
-         component: () => import("../views/front/lab-reserve.vue"),
-         meta: {
-           title: "实训室预约",
-         },
-       },
-       {
-         path: "/front/myOpenShare",
-         name: "FrontMyOpenShare",
-         component: () => import("../views/front/my-open-share.vue"),
-         meta: {
-           title: "我的共享开放",
-         },
-       },
-       {
          path: "/front/heritage",
          name: "FrontHeritage",
          component: () => import("../views/front/heritage.vue"),
          meta: {
-           title: "非遗文物",
+           title: "虚拟仿真资源",
          },
        },
        {
@@ -278,7 +202,7 @@
          name: "FrontHeritageDetail",
          component: () => import("../views/front/heritage-detail.vue"),
          meta: {
-           title: "非遗文物详情",
+           title: "资源详情",
          },
        },
        {
@@ -286,7 +210,7 @@
          name: "FrontActivity",
          component: () => import("../views/front/activity.vue"),
          meta: {
-           title: "活动中心",
+           title: "实训项目",
          },
        },
        {
@@ -294,7 +218,7 @@
          name: "FrontActivityDetail",
          component: () => import("../views/front/activity-detail.vue"),
          meta: {
-           title: "活动详情",
+           title: "实训项目详情",
          },
        },
        {
@@ -302,7 +226,7 @@
          name: "FrontNews",
          component: () => import("../views/front/news.vue"),
          meta: {
-           title: "新闻资讯",
+           title: "新闻公告",
          },
        },
        {
@@ -310,7 +234,7 @@
          name: "FrontNewsDetail",
          component: () => import("../views/front/news-detail.vue"),
          meta: {
-           title: "新闻资讯详情",
+           title: "公告详情",
          },
        },
        {
@@ -318,7 +242,7 @@
          name: "FrontVideos",
          component: () => import("../views/front/videos.vue"),
          meta: {
-           title: "非遗宣传",
+           title: "虚拟仿真",
          },
        },
        {
@@ -326,7 +250,7 @@
          name: "FrontVideosDetail",
          component: () => import("../views/front/videos-detail.vue"),
          meta: {
-           title: "非遗宣传详情",
+           title: "虚拟仿真详情",
          },
        },
        {

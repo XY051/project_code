@@ -4,6 +4,7 @@ import { ElInput, ElButton, ElPagination, ElMessage } from 'element-plus'
 import { Search, Refresh } from '@element-plus/icons-vue'
 import http from '../../utils/http'
 import { getImageUrl } from '../../utils/system'
+// @ts-expect-error Vue3 script setup auto-exports the component, Vetur doesn't detect it
 import NewsCard from '../../components/NewsCard.vue'
 import { useRouter } from 'vue-router'
 
@@ -34,9 +35,9 @@ const getNewsList = async () => {
     if (params.value.intro) url += `&intro=${params.value.intro}`
     
     const res = await http.get(url)
-    if (res.code === 200) {
-      newsList.value = res.data.records
-      total.value = res.data.total
+    if ((res as any).code === 200) {
+      newsList.value = (res as any).data.records
+      total.value = (res as any).data.total
     }
   } catch (error) {
     console.error('获取资讯列表失败:', error)
@@ -85,7 +86,7 @@ onMounted(async () => {
     <div class="search-section">
       <div class="search-form">
         <div class="form-item">
-          <label class="form-label">资讯标题：</label>
+          <label class="form-label">公告标题：</label>
           <el-input 
             v-model="params.title" 
             placeholder="请输入资讯标题" 
@@ -94,7 +95,7 @@ onMounted(async () => {
           />
         </div>
         <div class="form-item">
-          <label class="form-label">资讯简介：</label>
+          <label class="form-label">公告简介：</label>
           <el-input 
             v-model="params.intro" 
             placeholder="请输入资讯简介" 
@@ -136,8 +137,8 @@ onMounted(async () => {
       <div v-else class="empty-container">
         <div class="empty-content">
           <div class="empty-icon">📰</div>
-          <h3 class="empty-title">暂无资讯</h3>
-          <p class="empty-description">目前没有相关资讯，请稍后再来查看</p>
+          <h3 class="empty-title">暂无公告</h3>
+          <p class="empty-description">目前没有相关公告，请稍后再来查看</p>
         </div>
       </div>
     </div>
@@ -145,8 +146,8 @@ onMounted(async () => {
     <!-- 分页 -->
     <div v-if="hasData" class="pagination-section">
       <el-pagination
-        v-model:current-page="params.pageNum"
-        v-model:page-size="params.pageSize"
+        :current-page="params.pageNum"
+        :page-size="params.pageSize"
         :page-sizes="[12, 24, 36, 48]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"

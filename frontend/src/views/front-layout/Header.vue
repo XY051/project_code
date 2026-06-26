@@ -18,14 +18,12 @@ const userStore = useUserStore();
 // 鑿滃崟鏁版嵁
 const menuList = ref([
   { name: "首页", path: "/front/home" },
-  { name: "资源中心", path: "/front/resources" },
-  { name: "共享开放", path: "/front/openShare" },
-  { name: "非遗文物", path: "/front/heritage" },
-  { name: "活动中心", path: "/front/activity" },
-  { name: "新闻资讯", path: "/front/news" },
- { name: "非遗宣传", path: "/front/videos" },
+  { name: "资源中心", path: "/front/heritage" },
+  { name: "实训项目", path: "/front/activity" },
+  { name: "新闻公告", path: "/front/news" },
+  { name: "虚拟仿真", path: "/front/videos" },
   { name: "实验室预约", path: "/front/labBooking" },
- { name: "意见反馈", path: "/front/feedback" },
+  { name: "意见反馈", path: "/front/feedback" },
 ]);
 
 // 褰撳墠婵€娲荤殑鑿滃崟
@@ -66,18 +64,9 @@ const handleRegister = () => {
 const handleLogout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("userInfo");
-  localStorage.removeItem("user");
   userInfo.value = null;
   ElMessage.success("退出登录成功");
   router.push("/login");
-};
-
-const handleCommand = (command: string) => {
-  if (command === "profile") handleProfile();
-  if (command === "applications") handleMyApplications();
-  if (command === "openShare") handleMyOpenShare();
-  if (command === "collect") handleMyCollect();
-  if (command === "logout") handleLogout();
 };
 
 // 涓汉涓績
@@ -88,10 +77,6 @@ const handleProfile = () => {
 // 鎴戠殑鎶ュ悕
 const handleMyApplications = () => {
   router.push("/front/myApplications");
-};
-
-const handleMyOpenShare = () => {
-  router.push("/front/myOpenShare");
 };
 
 // 鎴戠殑鏀惰棌
@@ -160,7 +145,6 @@ watch(() => route.path, newPath => {
               <el-dropdown-menu>
                 <el-dropdown-item command="profile" @click="handleProfile">个人中心</el-dropdown-item>
                 <el-dropdown-item command="applications" @click="handleMyApplications">我的报名</el-dropdown-item>
-                <el-dropdown-item command="openShare" @click="handleMyOpenShare">我的共享开放</el-dropdown-item>
                 <el-dropdown-item command="collect" @click="handleMyCollect">我的收藏</el-dropdown-item>
                 <el-dropdown-item divided command="logout" @click="handleLogout">退出登录</el-dropdown-item>
               </el-dropdown-menu>

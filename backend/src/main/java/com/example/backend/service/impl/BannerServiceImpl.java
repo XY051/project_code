@@ -110,7 +110,7 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, Banner> impleme
     @Override
     public PageResult page(Integer pageNum, Integer pageSize, String title) {
         QueryWrapper<Banner> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("create_time");
+        queryWrapper.orderByAsc("sort_order").orderByDesc("create_time");
         if (CharSequenceUtil.isNotBlank(title)) {
             queryWrapper.like("title", title);
         }
@@ -131,7 +131,7 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, Banner> impleme
     @Override
     public List<Banner> list() {
         QueryWrapper<Banner> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("create_time");
+        queryWrapper.orderByAsc("sort_order").orderByDesc("create_time");
         return bannerMapper.selectList(queryWrapper);
     }
 }
