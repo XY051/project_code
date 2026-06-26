@@ -46,6 +46,44 @@
          ],
        },
        {
+         name: "虚拟仿真资源中心",
+         path: "/resource-center",
+         icon: "Collection",
+         children: [
+           {
+             name: "资源分类管理",
+             path: "/resourceCategory",
+             tableName: "resourceCategory",
+             buttons: ["新增", "编辑", "删除"],
+           },
+           {
+             name: "虚拟仿真资源管理",
+             path: "/trainingResource",
+             tableName: "trainingResource",
+             buttons: ["新增", "编辑", "删除"],
+           },
+         ],
+       },
+       {
+         name: "共享开放管理",
+         path: "/open-share",
+         icon: "Share",
+         children: [
+           {
+             name: "共享开放申请",
+             path: "/openApplication",
+             tableName: "openApplication",
+             buttons: ["删除", "审核"],
+           },
+           {
+             name: "预约管理",
+             path: "/reservation",
+             tableName: "reservation",
+             buttons: ["删除", "审核"],
+           },
+         ],
+       },
+       {
          name: "信息管理",
          path: "/info",
          icon: "Document",
