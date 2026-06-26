@@ -51,6 +51,42 @@
          },
        },
        {
+         path: "/resourceCategory",
+         name: "ResourceCategory",
+         component: () => import("@/views/system/resourceCategory.vue"),
+         meta: {
+           title: "资源分类管理",
+         },
+       },
+       {
+         path: "/trainingResource",
+         name: "TrainingResource",
+         component: () => import("@/views/system/trainingResource.vue"),
+         meta: {
+           title: "虚拟仿真资源管理",
+         },
+       },
+       {
+         path: "/resources",
+         redirect: "/trainingResource",
+       },
+       {
+         path: "/openApplication",
+         name: "OpenApplication",
+         component: () => import("@/views/system/openApplication.vue"),
+         meta: {
+           title: "共享开放申请管理",
+         },
+       },
+       {
+         path: "/reservation",
+         name: "Reservation",
+         component: () => import("@/views/system/reservation.vue"),
+         meta: {
+           title: "共享开放预约管理",
+         },
+       },
+       {
          path: "/ichType",
          name: "IchType",
          component: () => import("@/views/system/ichType.vue"),
@@ -179,6 +215,54 @@
          component: () => import("../views/front/home.vue"),
          meta: {
            title: "首页",
+         },
+       },
+       {
+         path: "/front/resources",
+         name: "FrontResources",
+         component: () => import("../views/front/resources.vue"),
+         meta: {
+           title: "虚拟仿真资源",
+         },
+       },
+       {
+         path: "/front/resourceDetail",
+         name: "FrontResourceDetail",
+         component: () => import("../views/front/resource-detail.vue"),
+         meta: {
+           title: "资源详情",
+         },
+       },
+       {
+         path: "/front/openShare",
+         name: "FrontOpenShare",
+         component: () => import("../views/front/open-share.vue"),
+         meta: {
+           title: "共享开放",
+         },
+       },
+       {
+         path: "/front/resourceApply",
+         name: "FrontResourceApply",
+         component: () => import("../views/front/resource-apply.vue"),
+         meta: {
+           title: "资源开放申请",
+         },
+       },
+       {
+         path: "/front/labReserve",
+         name: "FrontLabReserve",
+         component: () => import("../views/front/lab-reserve.vue"),
+         meta: {
+           title: "实训室预约",
+         },
+       },
+       {
+         path: "/front/myOpenShare",
+         name: "FrontMyOpenShare",
+         component: () => import("../views/front/my-open-share.vue"),
+         meta: {
+           title: "我的共享开放",
          },
        },
        {
