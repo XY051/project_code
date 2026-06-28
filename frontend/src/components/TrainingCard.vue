@@ -44,7 +44,7 @@ const formatDate = (dateStr) => {
         @error="e => { e.target.src = ''; e.target.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }"
       />
       <div class="training-badge" v-if="training.status">
-        {{ training.status === 'active' || training.status === 1 ? '杩涜涓? : '宸茬粨鏉? }}
+        {{ training.status === 'active' || training.status === 1 ? '进行中' : '已结束' }}
       </div>
     </div>
     <div class="training-info">
@@ -57,7 +57,8 @@ const formatDate = (dateStr) => {
           馃搮 {{ formatDate(training.startTime || training.createTime) }}
         </span>
         <span class="training-count" v-if="training.applyCount !== undefined">
-          馃懃 {{ training.applyCount }}浜哄弬涓?        </span>
+          👥 {{ training.applyCount }}人参与
+        </span>
         <span class="training-count" v-if="training.viewCount !== undefined">
           馃憗 {{ training.viewCount }}
         </span>

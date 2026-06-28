@@ -4,7 +4,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import * as echarts from 'echarts'
 import http from '../../utils/http'
 
-// 鍔犺浇鐘舵€?const loading = ref(false)
+// 加载状态
+const loading = ref(false)
 
 // 缁煎悎姒傝鏁版嵁
 const overviewData = ref({
@@ -24,7 +25,8 @@ const reportParams = ref({
   reportType: ''
 })
 
-// 淇濆瓨鎶ヨ〃瀵硅瘽妗?const dialogVisible = ref(false)
+// 保存报表对话框
+const dialogVisible = ref(false)
 const reportForm = ref({
   reportName: '',
   reportType: 'comprehensive',
@@ -61,12 +63,12 @@ const getResourceUsage = async () => {
         resourceChart.setOption({
           title: { text: '璧勬簮鍒╃敤鍒嗘瀽', left: 'center' },
           tooltip: { trigger: 'axis' },
-          legend: { data: ['娴忚閲?, '鏀惰棌閲?], top: 30 },
+          legend: { data: ['浏览量', '收藏量'], top: 30 },
           xAxis: { type: 'category', data: res.data.names || [] },
           yAxis: { type: 'value' },
           series: [
-            { name: '娴忚閲?, type: 'bar', data: res.data.viewCounts || [], itemStyle: { color: '#667eea' } },
-            { name: '鏀惰棌閲?, type: 'bar', data: res.data.collectCounts || [], itemStyle: { color: '#f093fb' } }
+            { name: '浏览量', type: 'bar', data: res.data.viewCounts || [], itemStyle: { color: '#667eea' } },
+            { name: '收藏量', type: 'bar', data: res.data.collectCounts || [], itemStyle: { color: '#f093fb' } }
           ],
           grid: { top: 70, left: 50, right: 20, bottom: 40 }
         })
@@ -92,7 +94,7 @@ const getTrainingEfficiency = async () => {
           tooltip: { trigger: 'axis' },
           xAxis: {
             type: 'category',
-            data: ['瀹炶椤圭洰鏁?, '瀹屾垚鏁?, '骞冲潎鏃堕暱(鍒嗛挓)', '瀹屾垚鐜?%)']
+            data: ['实训项目数', '完成数', '平均时长(分钟)', '完成率(%)']
           },
           yAxis: { type: 'value' },
           series: [{
@@ -113,7 +115,8 @@ const getTrainingEfficiency = async () => {
   }
 }
 
-// 鑾峰彇鐢ㄦ埛娲昏穬搴?const getUserActivity = async () => {
+// 获取用户活跃度
+const getUserActivity = async () => {
   try {
     const res = await http.get('/efficiencyAnalysis/userActivity')
     if (res.code === 200) {
@@ -122,14 +125,14 @@ const getTrainingEfficiency = async () => {
         if (userActivityChart) userActivityChart.dispose()
         userActivityChart = echarts.init(chartDom)
         userActivityChart.setOption({
-          title: { text: '鐢ㄦ埛娲昏穬搴﹀垎鏋?, left: 'center' },
+          title: { text: '用户活跃度分析', left: 'center' },
           tooltip: { trigger: 'item' },
           series: [{
             type: 'pie',
             radius: ['40%', '70%'],
             data: [
               { value: res.data.activeUsers || 0, name: '娲昏穬鐢ㄦ埛', itemStyle: { color: '#667eea' } },
-              { value: (res.data.totalUsers || 1) - (res.data.activeUsers || 0), name: '闈炴椿璺冪敤鎴?, itemStyle: { color: '#e0e3e9' } }
+              { value: (res.data.totalUsers || 1) - (res.data.activeUsers || 0), name: '非活跃用户', itemStyle: { color: '#e0e3e9' } }
             ]
           }]
         })
@@ -210,7 +213,8 @@ const handlePageChange = (page) => {
   getReportList()
 }
 
-// 绐楀彛澶у皬鍙樺寲鏃堕噸缁樺浘琛?const handleResize = () => {
+// 窗口大小变化时重绘图表
+const handleResize = () => {
   resourceChart?.resize()
   trainingChart?.resize()
   userActivityChart?.resize()
@@ -241,7 +245,8 @@ onMounted(async () => {
   window.addEventListener('resize', handleResize)
 })
 
-// 缁勪欢鍗歌浇鏃堕攢姣佸浘琛?onBeforeUnmount(() => {
+// 组件卸载时销毁图表
+onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize)
   resourceChart?.dispose()
   trainingChart?.dispose()
@@ -280,7 +285,7 @@ onMounted(async () => {
           <div class="card-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7)">馃搱</div>
           <div class="card-info">
             <span class="card-value">{{ overviewData.completionRate }}%</span>
-            <span class="card-label">瀹炶瀹屾垚鐜?/span>
+            <span class="card-label">实训完成率</span>
           </div>
         </div>
         <div class="overview-card">
@@ -357,7 +362,7 @@ onMounted(async () => {
     <el-dialog v-model="dialogVisible" title="淇濆瓨鍒嗘瀽鎶ヨ〃" width="500px">
       <el-form :model="reportForm" label-width="100px">
         <el-form-item label="鎶ヨ〃鍚嶇О">
-          <el-input v-model="reportForm.reportName" placeholder="璇疯緭鍏ユ姤琛ㄥ悕绉? />
+          <el-input v-model="reportForm.reportName" placeholder="请输入报表名称" />
         </el-form-item>
         <el-form-item label="鎶ヨ〃绫诲瀷">
           <el-select v-model="reportForm.reportType" style="width: 100%">
@@ -366,10 +371,10 @@ onMounted(async () => {
         </el-form-item>
         <el-form-item label="鍥捐〃绫诲瀷">
           <el-select v-model="reportForm.chartType" style="width: 100%">
-            <el-option label="鏌辩姸鍥? value="bar" />
-            <el-option label="鎶樼嚎鍥? value="line" />
+            <el-option label="柱状图" value="bar" />
+            <el-option label="折线图" value="line" />
             <el-option label="楗煎浘" value="pie" />
-            <el-option label="闆疯揪鍥? value="radar" />
+            <el-option label="雷达图" value="radar" />
           </el-select>
         </el-form-item>
       </el-form>
