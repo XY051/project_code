@@ -19,13 +19,11 @@ const userStore = useUserStore();
 const menuList = ref([
   { name: "首页", path: "/front/home" },
   { name: "资源中心", path: "/front/resources" },
+  { name: "实验室", path: "/front/labBooking" },
   { name: "共享开放", path: "/front/openShare" },
-  { name: "非遗文物", path: "/front/heritage" },
-  { name: "活动中心", path: "/front/activity" },
-  { name: "新闻资讯", path: "/front/news" },
- { name: "非遗宣传", path: "/front/videos" },
-  { name: "实验室预约", path: "/front/labBooking" },
- { name: "意见反馈", path: "/front/feedback" },
+  { name: "实训项目", path: "/front/activity" },
+  { name: "新闻公告", path: "/front/news" },
+  { name: "意见反馈", path: "/front/feedback" },
 ]);
 
 // 褰撳墠婵€娲荤殑鑿滃崟
@@ -66,7 +64,6 @@ const handleRegister = () => {
 const handleLogout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("userInfo");
-  localStorage.removeItem("user");
   userInfo.value = null;
   ElMessage.success("退出登录成功");
   router.push("/login");

@@ -14,16 +14,16 @@ import java.util.Date;
 
 /**
  * <p>
- * 轮播图表
+ * 门户配置表
  * </p>
  *
- * @author 
- * @since 2025-01-06
+ * @author
+ * @since 2026-06-26
  */
 @Getter
 @Setter
-@Schema(description = "Banner对象")
-public class Banner implements Serializable {
+@Schema(description = "PortalConfig对象")
+public class PortalConfig implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,11 +31,17 @@ public class Banner implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @Schema(description = "名称")
-    private String title;
+    @Schema(description = "配置键")
+    private String configKey;
 
-    @Schema(description = "图片地址")
-    private String url;
+    @Schema(description = "配置值")
+    private String configValue;
+
+    @Schema(description = "配置类型：text-文本, image-图片, switch-开关, json-JSON数据")
+    private String configType;
+
+    @Schema(description = "配置说明")
+    private String remark;
 
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -45,16 +51,4 @@ public class Banner implements Serializable {
     @TableField(value = "update_time", fill = FieldFill.UPDATE)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
-
-    @Schema(description = "排序字段")
-    private Integer sortOrder;
-
-    @Schema(description = "链接类型：url-外部链接, page-内部页面, none-无链接")
-    private String linkType;
-
-    @Schema(description = "链接地址")
-    private String linkUrl;
-
-    @Schema(description = "描述文案")
-    private String description;
 }

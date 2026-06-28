@@ -4,6 +4,7 @@ import { ElInput, ElButton, ElPagination, ElMessage } from 'element-plus'
 import { Search, Refresh } from '@element-plus/icons-vue'
 import http from '../../utils/http'
 import { getImageUrl } from '../../utils/system'
+// @ts-expect-error Vue3 script setup auto-exports the component, Vetur doesn't detect it
 import VideoCard from '../../components/VideoCard.vue'
 import { useRouter } from 'vue-router'
 
@@ -32,9 +33,9 @@ const getVideosList = async () => {
     if (params.value.title) url += `&title=${params.value.title}`
     
     const res = await http.get(url)
-    if (res.code === 200) {
-      videosList.value = res.data.records
-      total.value = res.data.total
+    if ((res as any).code === 200) {
+      videosList.value = (res as any).data.records
+      total.value = (res as any).data.total
     }
   } catch (error) {
     console.error('获取视频列表失败:', error)
@@ -134,8 +135,8 @@ onMounted(async () => {
     <!-- 分页 -->
     <div v-if="hasData" class="pagination-section">
       <el-pagination
-        v-model:current-page="params.pageNum"
-        v-model:page-size="params.pageSize"
+        :current-page="params.pageNum"
+        :page-size="params.pageSize"
         :page-sizes="[12, 24, 36, 48]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"

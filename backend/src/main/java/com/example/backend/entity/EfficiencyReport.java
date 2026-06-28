@@ -14,16 +14,16 @@ import java.util.Date;
 
 /**
  * <p>
- * 轮播图表
+ * 效能分析报表表
  * </p>
  *
- * @author 
- * @since 2025-01-06
+ * @author
+ * @since 2026-06-26
  */
 @Getter
 @Setter
-@Schema(description = "Banner对象")
-public class Banner implements Serializable {
+@Schema(description = "EfficiencyReport对象")
+public class EfficiencyReport implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,11 +31,20 @@ public class Banner implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @Schema(description = "名称")
-    private String title;
+    @Schema(description = "报表名称")
+    private String reportName;
 
-    @Schema(description = "图片地址")
-    private String url;
+    @Schema(description = "报表类型：resource-资源利用, training-实训效能, user-用户活跃, comprehensive-综合分析")
+    private String reportType;
+
+    @Schema(description = "报表数据JSON")
+    private String dataJson;
+
+    @Schema(description = "图表类型：bar-柱状图, line-折线图, pie-饼图, radar-雷达图")
+    private String chartType;
+
+    @Schema(description = "创建用户ID")
+    private Integer createUserId;
 
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -45,16 +54,4 @@ public class Banner implements Serializable {
     @TableField(value = "update_time", fill = FieldFill.UPDATE)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
-
-    @Schema(description = "排序字段")
-    private Integer sortOrder;
-
-    @Schema(description = "链接类型：url-外部链接, page-内部页面, none-无链接")
-    private String linkType;
-
-    @Schema(description = "链接地址")
-    private String linkUrl;
-
-    @Schema(description = "描述文案")
-    private String description;
 }

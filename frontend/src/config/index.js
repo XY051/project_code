@@ -1,8 +1,8 @@
 export default {
-  baseUrl: "http://localhost:8088/api",
-  systemName: "非遗后台管理",
-  frontName: "非物质文化遗产保护平台",
+  baseUrl: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api",
+  systemName: "实训平台后台管理",
+  frontName: "虚拟仿真实训平台",
   description:
-    "保护和传承中华优秀传统文化，推动非物质文化遗产的数字化保护与传播，让传统文化在新时代焕发新的生机与活力。",
-  welcome: "非遗文物 | 探索文化魅力",
+    "构建虚拟仿真实训教学体系，推动实践教学数字化转型，提供沉浸式虚拟仿真实验环境，培养高素质应用型人才。",
+  welcome: "虚拟仿真 | 探索实训魅力",
 };

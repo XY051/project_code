@@ -85,7 +85,7 @@ const delRow = async (id: number) => {
 // 批量删除
 const batchDel = async () => {
   if (multipleSelection.value.length === 0) {
-    ElMessage.warning("请先选择要删除的报名记录");
+    ElMessage.warning("请先选择要删除的实验记录");
     return;
   }
   const res = await http.post("/activityApplication/batchDel", selectedIds.value);
@@ -107,7 +107,7 @@ const handleSelectionChange = (selection) => {
 const handleApprove = async (row: any) => {
   try {
     await ElMessageBox.confirm(
-      `确定要通过 ${row.realName} 的报名申请吗？`,
+      `确定要通过 ${row.realName} 的实验申请吗？`,
       "审核确认",
       {
         confirmButtonText: "确定",
@@ -134,7 +134,7 @@ const handleApprove = async (row: any) => {
 const handleReject = async (row: any) => {
   try {
     await ElMessageBox.confirm(
-      `确定要拒绝 ${row.realName} 的报名申请吗？`,
+      `确定要拒绝 ${row.realName} 的实验申请吗？`,
       "审核确认",
       {
         confirmButtonText: "确定",
@@ -218,7 +218,7 @@ onMounted(async () => {
         <el-table-column prop="username" label="用户账号" width="120" />
         <el-table-column prop="realName" label="真实姓名" width="100" />
         <el-table-column prop="phone" label="联系电话" width="130" />
-        <el-table-column prop="activityTitle" label="活动名称" show-overflow-tooltip />
+        <el-table-column prop="activityTitle" label="实训项目名称" show-overflow-tooltip />
         <el-table-column prop="remark" label="备注" show-overflow-tooltip />
         <el-table-column prop="status" label="审核状态" width="100">
           <template #default="scope">
@@ -227,7 +227,7 @@ onMounted(async () => {
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="报名时间" width="180" />
+        <el-table-column prop="createTime" label="申请时间" width="180" />
         <el-table-column prop="updateTime" label="更新时间" width="180" />
         <el-table-column label="操作" fixed="right">
           <template #default="scope">

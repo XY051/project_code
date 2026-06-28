@@ -4,9 +4,9 @@ import config from "../../config";
 
 // 联系信息
 const contactInfo = ref({
-  phone: "400-123-4567",
-  email: "contact@heritage.com",
-  address: "北京市朝阳区文化大街123号",
+  phone: "400-888-9999",
+  email: "contact@vrtraining.com",
+  address: "北京市海淀区学院路实训中心",
   workTime: "周一至周五 9:00-18:00",
 });
 </script>
@@ -37,11 +37,11 @@ const contactInfo = ref({
             <div class="section-content">
               <ul class="nav-links">
                 <li><a href="/front">首页</a></li>
-                <li><a href="/front/heritage">非遗项目</a></li>
-                <li><a href="/front/activity">活动中心</a></li>
-                <li><a href="/front/inheritor">传承人</a></li>
-                <li><a href="/front/news">新闻资讯</a></li>
-                <li><a href="/front/about">关于我们</a></li>
+                <li><a href="/front/resources">资源中心</a></li>
+                <li><a href="/front/labBooking">实验室</a></li>
+                <li><a href="/front/openShare">共享开放</a></li>
+                <li><a href="/front/activity">实训项目</a></li>
+                <li><a href="/front/news">新闻公告</a></li>
               </ul>
             </div>
           </div>

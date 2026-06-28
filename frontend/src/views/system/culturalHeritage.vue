@@ -226,7 +226,7 @@ onBeforeUnmount(() => {
     <header class="flex">
       <div class="flex form-item">
         <p class="label-text">名称：</p>
-        <el-input v-model="params.name" placeholder="请输入非遗文物名称" />
+        <el-input v-model="params.name" placeholder="请输入资源名称" />
       </div>
       <el-button type="primary" :icon="Search" @click="handleSearch"
         >搜索</el-button
@@ -327,7 +327,7 @@ onBeforeUnmount(() => {
     <el-dialog v-model="visible" :title="dialogTitle" width="800" top="2%" style="max-height: 800px; overflow: hidden; overflow-y: scroll;">
       <el-form :model="form" label-width="120">
         <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入非遗文物名称" />
+          <el-input v-model="form.name" placeholder="请输入资源名称" />
         </el-form-item>
         <el-form-item label="分类" prop="categoryId">
           <el-select v-model="form.categoryId" placeholder="请选择分类" style="width: 100%">

@@ -224,7 +224,7 @@ onMounted(async () => {
     <header class="flex">
       <div class="flex form-item">
         <p class="label-text">标题：</p>
-        <el-input v-model="params.title" placeholder="请输入视频标题" />
+        <el-input v-model="params.title" placeholder="请输入仿真资源标题" />
       </div>
       <el-button type="primary" :icon="Search" @click="handleSearch"
       >搜索</el-button
@@ -330,7 +330,7 @@ onMounted(async () => {
     >
       <el-form :model="form" label-width="120">
         <el-form-item label="标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入视频标题" />
+          <el-input v-model="form.title" placeholder="请输入仿真资源标题" />
         </el-form-item>
         <el-form-item label="视频文件" prop="url">
           <div class="upload-container">

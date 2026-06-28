@@ -15,10 +15,13 @@ import com.example.backend.entity.Notice;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 /**
- * @Description 公告表控制层
+ * @Description 实训公告表控制层
  * @Version 1.0
  */
+@Tag(name = "实训公告管理")
 @RestController
 @RequestMapping("/notice")
 public class NoticeController {

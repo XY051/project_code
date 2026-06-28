@@ -103,17 +103,26 @@ public class FileController {
     public void downloadFile(@PathVariable String fileFullName,
                              HttpServletResponse response) throws IOException {
         String extName = FileUtil.extName(fileFullName);
-        String contentType = "image/jpeg";
-        if ("png".equalsIgnoreCase(extName)) contentType = "image/png";
+        String contentType = "application/octet-stream";
+        if ("jpg".equalsIgnoreCase(extName) || "jpeg".equalsIgnoreCase(extName)) contentType = "image/jpeg";
+        else if ("png".equalsIgnoreCase(extName)) contentType = "image/png";
         else if ("gif".equalsIgnoreCase(extName)) contentType = "image/gif";
         else if ("webp".equalsIgnoreCase(extName)) contentType = "image/webp";
         else if ("svg".equalsIgnoreCase(extName)) contentType = "image/svg+xml";
         else if ("ico".equalsIgnoreCase(extName)) contentType = "image/x-icon";
+        else if ("html".equalsIgnoreCase(extName) || "htm".equalsIgnoreCase(extName)) contentType = "text/html;charset=UTF-8";
+        else if ("pdf".equalsIgnoreCase(extName)) contentType = "application/pdf";
+        else if ("txt".equalsIgnoreCase(extName)) contentType = "text/plain;charset=UTF-8";
+        else if ("mp4".equalsIgnoreCase(extName)) contentType = "video/mp4";
+        else if ("webm".equalsIgnoreCase(extName)) contentType = "video/webm";
+        else if ("mp3".equalsIgnoreCase(extName)) contentType = "audio/mpeg";
+        else if ("wav".equalsIgnoreCase(extName)) contentType = "audio/wav";
         response.setContentType(contentType);
+        response.setHeader("Accept-Ranges", "bytes");
         String fileUploadPath = getFileUploadPath(fileFullName);
         byte[] bytes = FileUtil.readBytes(fileUploadPath);
         response.addHeader("Content-Disposition", "inline;filename=" + URLEncoder.encode(fileFullName, "UTF-8"));  // 预览
-        ArrayList<String> attachmentFileExtNames = CollUtil.newArrayList("docx", "doc", "xlsx", "xls", "mp4", "mp3");
+        ArrayList<String> attachmentFileExtNames = CollUtil.newArrayList("docx", "doc", "xlsx", "xls");
         if (attachmentFileExtNames.contains(extName)) {
             response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileFullName, "UTF-8"));  // 附件下载
         }

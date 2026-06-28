@@ -62,7 +62,7 @@ const imageUrl = ref(
   form.value?.coverImage ? `${Config.baseUrl}${form.value?.coverImage}` : ""
 );
 
-// 活动状态字典
+// 实训项目状态字典
 const statusDict = {
   0: "未开始",
   1: "进行中",
@@ -119,7 +119,7 @@ const delRow = async (id: number) => {
 // 批量删除
 const batchDel = async () => {
   if (multipleSelection.value.length === 0) {
-    ElMessage.warning("请先选择要删除的活动");
+    ElMessage.warning("请先选择要删除的实训项目");
     return;
   }
   const res = await http.post("/activity/batchDel", selectedIds.value);
@@ -201,8 +201,8 @@ onMounted(async () => {
   <div>
     <header class="flex">
       <div class="flex form-item">
-        <p class="label-text">活动标题：</p>
-        <el-input v-model="params.title" placeholder="请输入活动标题" />
+        <p class="label-text">实训项目标题：</p>
+        <el-input v-model="params.title" placeholder="请输入实训项目标题" />
       </div>
       <el-button type="primary" :icon="Search" @click="handleSearch"
         >搜索</el-button
@@ -236,7 +236,7 @@ onMounted(async () => {
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="title" label="活动标题" width="200" />
+        <el-table-column prop="title" label="实训项目标题" width="200" />
         <el-table-column prop="coverImage" label="封面图片" width="100">
           <template #default="scope">
             <el-image
@@ -260,13 +260,13 @@ onMounted(async () => {
         </el-table-column>
         <el-table-column
           prop="content"
-          label="活动内容"
+          label="项目内容"
           show-overflow-tooltip
           width="200"
         />
         <el-table-column prop="startTime" label="开始时间" width="180" />
         <el-table-column prop="endTime" label="结束时间" width="180" />
-        <el-table-column prop="address" label="活动地址" width="150" />
+        <el-table-column prop="address" label="实训地点" width="150" />
         <el-table-column prop="maxPeople" label="最大人数" width="100" />
         <el-table-column prop="status" label="状态" width="100">
           <template #default="scope">
@@ -315,10 +315,10 @@ onMounted(async () => {
       :before-close="handleClose"
     >
       <el-form :model="form" label-width="120">
-        <el-form-item label="活动标题" prop="title">
+        <el-form-item label="实训项目标题" prop="title">
           <el-input v-model="form.title" />
         </el-form-item>
-        <el-form-item label="活动内容" prop="content">
+        <el-form-item label="项目内容" prop="content">
           <el-input
             type="textarea"
             :autosize="{ minRows: 3, maxRows: 8 }"
@@ -343,7 +343,7 @@ onMounted(async () => {
             value-format="YYYY-MM-DD HH:mm:ss"
           />
         </el-form-item>
-        <el-form-item label="活动地址" prop="address">
+        <el-form-item label="实训地点" prop="address">
           <el-input v-model="form.address" />
         </el-form-item>
         <el-form-item label="最大人数" prop="maxPeople">
