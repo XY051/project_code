@@ -31,6 +31,7 @@ const currentUser = computed(() => {
 
 const hasUseAccess = computed(() => !!activeApplication.value && activeApplication.value.useStatus === "使用中");
 const canEnterLab = computed(() => hasUseAccess.value && detail.value.accessUrl);
+const isVirtualSimulation = computed(() => (detail.value.resourceType || "虚拟仿真") === "虚拟仿真");
 
 const safeImage = (url?: string) => {
   if (!url) return "";
@@ -167,7 +168,11 @@ const submitComment = async () => {
 
 const enterExperiment = () => {
   if (!detail.value.accessUrl) {
-    ElMessage.warning("该资源暂未配置实验入口");
+    ElMessage.warning(isVirtualSimulation.value ? "该资源暂未配置实验入口" : "该资源暂未配置查看地址");
+    return;
+  }
+  if (!isVirtualSimulation.value) {
+    window.open(detail.value.accessUrl, "_blank");
     return;
   }
   if (hasUseAccess.value) {
@@ -201,7 +206,8 @@ onMounted(getDetail);
             <div class="tag-row">
               <el-tag type="primary">{{ detail.categoryName || "未分类" }}</el-tag>
               <el-tag type="success">{{ detail.openType || "开放共享" }}</el-tag>
-              <el-tag :type="Number(detail.availableCount || 0) > 0 ? 'success' : 'info'">可用资源 {{ detail.availableCount || 0 }}</el-tag>
+              <el-tag v-if="isVirtualSimulation" :type="Number(detail.availableCount || 0) > 0 ? 'success' : 'info'">可用资源 {{ detail.availableCount || 0 }}</el-tag>
+              <el-tag v-else type="success">无需申请</el-tag>
             </div>
             <h1>{{ detail.name }}</h1>
             <p class="intro">{{ detail.intro || "暂无资源简介" }}</p>
@@ -213,14 +219,15 @@ onMounted(getDetail);
             </div>
             <div class="actions">
               <el-button type="primary" :icon="Link" size="large" :disabled="!detail.accessUrl" @click="enterExperiment">
-                {{ canEnterLab ? "进入实验" : "申请后实验" }}
+                {{ isVirtualSimulation ? (canEnterLab ? "进入实验" : "申请后实验") : "查看资源" }}
               </el-button>
-              <el-button type="success" :icon="Tickets" size="large" @click="openApply">申请资源</el-button>
+              <el-button v-if="isVirtualSimulation" type="success" :icon="Tickets" size="large" @click="openApply">申请资源</el-button>
               <el-button :type="isCollected ? 'warning' : 'default'" :icon="isCollected ? StarFilled : Star" :loading="collectLoading" size="large" @click="toggleCollect">
                 {{ isCollected ? "已收藏" : "收藏" }}
               </el-button>
             </div>
-            <p v-if="!hasUseAccess" class="hint">需要先提交资源申请，审核通过并占用资源后才能进入实验；资源数为 0 时请等待管理员协调。</p>
+            <p v-if="isVirtualSimulation && !hasUseAccess" class="hint">需要先提交资源申请，审核通过并占用资源后才能进入实验；资源数为 0 时请等待管理员协调。</p>
+            <p v-else-if="!isVirtualSimulation && !detail.accessUrl" class="hint muted">当前资源地址待补充，补充后可直接查看，不需要提交资源申请。</p>
           </div>
         </section>
 
@@ -231,10 +238,14 @@ onMounted(getDetail);
               <el-empty v-else description="暂无资源说明" />
             </el-tab-pane>
             <el-tab-pane label="开放须知">
-              <div class="notice-list">
+              <div v-if="isVirtualSimulation" class="notice-list">
                 <p>资源申请提交后由管理员审核，审核通过会占用 1 个可用资源名额。</p>
                 <p>使用结束后由管理员确认归还，归还后系统恢复可用数量。</p>
                 <p>实训室开放预约已预留统一预约入口，后续可由实训室模块成员继续扩展。</p>
+              </div>
+              <div v-else class="notice-list">
+                <p>视频、音频和文档资源不需要提交资源申请，配置资源地址后可直接查看。</p>
+                <p>如资源地址暂未补充，请联系管理员完善资源链接或附件。</p>
               </div>
             </el-tab-pane>
             <el-tab-pane label="资源评论">

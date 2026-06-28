@@ -1,6 +1,7 @@
 package com.example.backend.exception;
 
 import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotPermissionException;
 import com.example.backend.common.constants.SaTokenConstant;
 import com.example.backend.common.enums.CodeEnum;
 import com.example.backend.common.result.BaseResponse;
@@ -43,6 +44,13 @@ public class GlobalExceptionHandler {
             default:
                 return Result.error(CodeEnum.AUTH_ERROR, SaTokenConstant.NOT_TOKEN);
         }
+    }
+
+    // 权限不足异常
+    @ExceptionHandler(NotPermissionException.class)
+    public BaseResponse handlerNotPermissionException(NotPermissionException e) {
+        log.error("权限异常：{}", e.getMessage());
+        return Result.error(CodeEnum.AUTH_ERROR, SaTokenConstant.PERMISSION_ERROR, e.getMessage());
     }
     public GlobalExceptionHandler() {
         try {

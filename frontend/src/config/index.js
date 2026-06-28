@@ -1,5 +1,5 @@
 export default {
-  baseUrl: "http://localhost:8088/api",
+  baseUrl: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api",
   systemName: "实训平台后台管理",
   frontName: "虚拟仿真实训平台",
   description:

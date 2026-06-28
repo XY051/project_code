@@ -4,7 +4,7 @@
    {
      path: "/",
      name: "Layout",
-     redirect: "/home",
+     redirect: "/chart",
      component: () => import("../layouts/index.vue"),
      meta: {
        title: "入口",
@@ -15,7 +15,7 @@
          name: "Home",
          component: () => import("@/views/home/home.vue"),
          meta: {
-           title: "首页",
+           title: "后台首页",
          },
        },
        {
@@ -26,12 +26,28 @@
            title: "用户管理",
          },
        },
+       {
+         path: "/role",
+         name: "Role",
+         component: () => import("@/views/system/role.vue"),
+         meta: {
+           title: "角色管理",
+         },
+       },
+       {
+         path: "/permission",
+         name: "Permission",
+         component: () => import("@/views/system/permission.vue"),
+         meta: {
+           title: "权限管理",
+         },
+       },
         {
           path: "/notice",
           name: "Notice",
           component: () => import("@/views/system/notice.vue"),
           meta: {
-            title: "实训公告管理",
+            title: "新闻公告",
           },
         },
         {
@@ -47,7 +63,7 @@
           name: "Person",
           component: () => import("@/views/person.vue"),
           meta: {
-            title: "个人信息",
+            title: "个人中心",
           },
         },
         {
@@ -63,7 +79,7 @@
           name: "CulturalHeritage",
           component: () => import("@/views/system/culturalHeritage.vue"),
           meta: {
-            title: "仿真资源管理",
+            title: "实训实验",
           },
         },
         {
@@ -111,7 +127,7 @@
           name: "Activity",
           component: () => import("@/views/system/activity.vue"),
           meta: {
-            title: "实训项目管理",
+            title: "课程管理",
           },
         },
         {
@@ -119,7 +135,7 @@
           name: "ActivityApplication",
           component: () => import("@/views/system/activityApplication.vue"),
           meta: {
-            title: "实验记录管理",
+            title: "过程结果",
           },
         },
         {
@@ -127,7 +143,7 @@
           name: "Chart",
           component: () => import("@/views/system/chart-page.vue"),
           meta: {
-            title: "数据统计",
+            title: "概览统计",
           },
         },
         {
@@ -135,7 +151,7 @@
           name: "Efficiency",
           component: () => import("@/views/system/efficiency.vue"),
           meta: {
-            title: "效能分析",
+            title: "实训分析",
           },
         },
        {
@@ -143,7 +159,7 @@
          name: "Lab",
          component: () => import("../views/system/lab.vue"),
          meta: {
-           title: "实验室管理",
+           title: "实验室",
          },
        },
        {
@@ -151,7 +167,7 @@
          name: "LabBooking",
          component: () => import("../views/system/labBooking.vue"),
          meta: {
-           title: "实验室预约管理",
+           title: "实验室申请",
          },
        },
        {
@@ -159,7 +175,7 @@
          name: "Equipment",
          component: () => import("../views/system/equipment.vue"),
          meta: {
-           title: "设备管理",
+           title: "仿真设备",
          },
        },
        {
@@ -167,7 +183,111 @@
          name: "EquipmentMaintenance",
          component: () => import("../views/system/equipmentMaintenance.vue"),
          meta: {
-           title: "设备维护管理",
+           title: "设备监控",
+         },
+       },
+       {
+         path: "/trainingResource",
+         name: "TrainingResource",
+         component: () => import("../views/system/trainingResource.vue"),
+         meta: {
+           title: "实训资源",
+         },
+       },
+       {
+         path: "/resourceCategory",
+         name: "ResourceCategory",
+         component: () => import("../views/system/resourceCategory.vue"),
+         meta: {
+           title: "资源分类",
+         },
+       },
+       {
+         path: "/openApplication",
+         name: "OpenApplication",
+         component: () => import("../views/system/openApplication.vue"),
+         meta: {
+           title: "资源开放申请",
+         },
+       },
+       {
+         path: "/reservation",
+         name: "Reservation",
+         component: () => import("../views/system/reservation.vue"),
+         meta: {
+           title: "预约管理",
+         },
+       },
+       {
+         path: "/admin",
+         name: "Admin",
+         component: () => import("../views/system/admin.vue"),
+         meta: {
+           title: "系统用户",
+         },
+       },
+       {
+         path: "/dataExport",
+         name: "DataExport",
+         component: () => import("../views/system/placeholder.vue"),
+         meta: {
+           title: "数据导出",
+         },
+       },
+       {
+         path: "/teacherManage",
+         name: "TeacherManage",
+         component: () => import("../views/system/placeholder.vue"),
+         meta: {
+           title: "师资管理",
+         },
+       },
+       {
+         path: "/teachingPlan",
+         name: "TeachingPlan",
+         component: () => import("../views/system/placeholder.vue"),
+         meta: {
+           title: "教学计划",
+         },
+       },
+       {
+         path: "/resourceMonitor",
+         name: "ResourceMonitor",
+         component: () => import("../views/system/placeholder.vue"),
+         meta: {
+           title: "资源监控",
+         },
+       },
+       {
+         path: "/teachingMonitor",
+         name: "TeachingMonitor",
+         component: () => import("../views/system/monitor.vue"),
+         meta: {
+           title: "教学监控",
+         },
+       },
+       {
+         path: "/teachingGuidance",
+         name: "TeachingGuidance",
+         component: () => import("../views/system/teachingGuidance.vue"),
+         meta: {
+           title: "指导记录",
+         },
+       },
+       {
+         path: "/platformSetting",
+         name: "PlatformSetting",
+         component: () => import("../views/system/placeholder.vue"),
+         meta: {
+           title: "平台设置",
+         },
+       },
+       {
+         path: "/systemLog",
+         name: "SystemLog",
+         component: () => import("../views/system/placeholder.vue"),
+         meta: {
+           title: "系统日志",
          },
        },
      ],
@@ -187,6 +307,54 @@
          component: () => import("../views/front/home.vue"),
          meta: {
            title: "首页",
+         },
+       },
+       {
+         path: "/front/resources",
+         name: "FrontResources",
+         component: () => import("../views/front/resources.vue"),
+         meta: {
+           title: "资源中心",
+         },
+       },
+       {
+         path: "/front/resourceDetail",
+         name: "FrontResourceDetail",
+         component: () => import("../views/front/resource-detail.vue"),
+         meta: {
+           title: "资源详情",
+         },
+       },
+       {
+         path: "/front/openShare",
+         name: "FrontOpenShare",
+         component: () => import("../views/front/open-share.vue"),
+         meta: {
+           title: "共享开放",
+         },
+       },
+       {
+         path: "/front/resourceApply",
+         name: "FrontResourceApply",
+         component: () => import("../views/front/resource-apply.vue"),
+         meta: {
+           title: "资源开放申请",
+         },
+       },
+       {
+         path: "/front/labReserve",
+         name: "FrontLabReserve",
+         component: () => import("../views/front/lab-reserve.vue"),
+         meta: {
+           title: "实训室预约",
+         },
+       },
+       {
+         path: "/front/myOpenShare",
+         name: "FrontMyOpenShare",
+         component: () => import("../views/front/my-open-share.vue"),
+         meta: {
+           title: "我的共享开放",
          },
        },
        {
@@ -242,7 +410,7 @@
          name: "FrontVideos",
          component: () => import("../views/front/videos.vue"),
          meta: {
-           title: "虚拟仿真",
+           title: "宣传视频",
          },
        },
        {
@@ -290,7 +458,7 @@
          name: "FrontLabBooking",
          component: () => import("../views/front/lab-booking.vue"),
          meta: {
-           title: "实验室预约",
+           title: "实验室",
          },
        },
      ],

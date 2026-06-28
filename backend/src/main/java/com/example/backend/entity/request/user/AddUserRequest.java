@@ -44,4 +44,14 @@ public class AddUserRequest {
     private String profile;
 
     private String role;
+
+    /**
+     * 用户类型 (student/teacher/admin/social)
+     */
+    private String userType;
+
+    /**
+     * 所属院校
+     */
+    private String institution;
 }

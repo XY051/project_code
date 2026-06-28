@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { useRouter } from 'vue-router'
 
 const props = defineProps({
@@ -13,7 +13,7 @@ const router = useRouter()
 const goToDetail = () => {
   if (props.resource.id) {
     router.push({
-      path: '/front/heritageDetail',
+      path: '/front/resourceDetail',
       query: { id: props.resource.id }
     })
   }
@@ -23,14 +23,14 @@ const goToDetail = () => {
 <template>
   <div class="resource-card" @click="goToDetail">
     <div class="resource-image-wrapper">
-      <img 
-        :src="resource.coverImage || resource.coverUrl || ''" 
-        :alt="resource.name || resource.title" 
+      <img
+        :src="resource.coverImage || resource.coverUrl || ''"
+        :alt="resource.name || resource.title"
         class="resource-image"
         @error="e => e.target.style.display = 'none'"
       />
       <div class="resource-overlay">
-        <span class="view-btn">查看详情</span>
+        <span class="view-btn">鏌ョ湅璇︽儏</span>
       </div>
     </div>
     <div class="resource-info">
@@ -38,10 +38,10 @@ const goToDetail = () => {
       <p class="resource-category" v-if="resource.categoryName">{{ resource.categoryName }}</p>
       <div class="resource-meta">
         <span class="view-count" v-if="resource.viewCount !== undefined">
-          👁 {{ resource.viewCount }}
+          馃憗 {{ resource.viewCount }}
         </span>
         <span class="collect-count" v-if="resource.collectCount !== undefined">
-          ❤ {{ resource.collectCount }}
+          鉂?{{ resource.collectCount }}
         </span>
       </div>
     </div>

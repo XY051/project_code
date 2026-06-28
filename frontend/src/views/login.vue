@@ -6,6 +6,7 @@ import { User, Lock, UserFilled } from "@element-plus/icons-vue";
 import type { FormInstance } from "element-plus";
 import useUserStore from "../stores/userStore";
 import http from "../utils/http";
+import { loadPermissions } from "../utils/system";
 import { roles } from "../utils/menu.js";
 import config from "../config/index.js";
 
@@ -39,6 +40,7 @@ const handleLogin = async () => {
       userStore.setToken(res.data.token);
       userStore.setUserInfo(res.data);
       userStore.setRoleFlag(res.data.role);
+      await loadPermissions();
       if (res.data.role == "admin") {
         await router.push("/");
       } else {
