@@ -7,8 +7,8 @@ const router = useRouter();
 
 // 首页标签
 const homeTag = {
-  path: "/home",
-  title: "首页",
+  path: "/chart",
+  title: "概览统计",
   name: "dashboard",
   affix: true, // 固定标签，不可关闭
 };

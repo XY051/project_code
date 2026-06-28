@@ -37,11 +37,11 @@ const contactInfo = ref({
             <div class="section-content">
               <ul class="nav-links">
                 <li><a href="/front">首页</a></li>
-                <li><a href="/front/heritage">资源中心</a></li>
+                <li><a href="/front/resources">资源中心</a></li>
+                <li><a href="/front/labBooking">实验室</a></li>
+                <li><a href="/front/openShare">共享开放</a></li>
                 <li><a href="/front/activity">实训项目</a></li>
-                <li><a href="/front/labBooking">实验室预约</a></li>
                 <li><a href="/front/news">新闻公告</a></li>
-                <li><a href="/front/videos">虚拟仿真</a></li>
               </ul>
             </div>
           </div>

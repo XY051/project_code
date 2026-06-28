@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { useRouter } from 'vue-router'
 
 const props = defineProps({
@@ -31,15 +31,15 @@ const formatDate = (dateStr) => {
 </script>
 
 <template>
-  <div 
-    class="training-card" 
-    :class="[`size-${size}`]" 
+  <div
+    class="training-card"
+    :class="[`size-${size}`]"
     @click="goToDetail"
   >
     <div class="training-image-wrapper">
-      <img 
-        :src="training.coverImage || training.coverUrl || ''" 
-        :alt="training.name || training.title" 
+      <img
+        :src="training.coverImage || training.coverUrl || ''"
+        :alt="training.name || training.title"
         class="training-image"
         @error="e => { e.target.src = ''; e.target.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }"
       />
@@ -54,13 +54,13 @@ const formatDate = (dateStr) => {
       </p>
       <div class="training-meta">
         <span class="training-date" v-if="training.startTime || training.createTime">
-          📅 {{ formatDate(training.startTime || training.createTime) }}
+          馃搮 {{ formatDate(training.startTime || training.createTime) }}
         </span>
         <span class="training-count" v-if="training.applyCount !== undefined">
           👥 {{ training.applyCount }}人参与
         </span>
         <span class="training-count" v-if="training.viewCount !== undefined">
-          👁 {{ training.viewCount }}
+          馃憗 {{ training.viewCount }}
         </span>
       </div>
     </div>
@@ -156,7 +156,7 @@ const formatDate = (dateStr) => {
   // Small size
   &.size-small {
     display: flex;
-    
+
     .training-image-wrapper {
       width: 100px;
       min-width: 100px;
@@ -166,7 +166,7 @@ const formatDate = (dateStr) => {
     .training-info {
       flex: 1;
       padding: 12px 16px;
-      
+
       .training-name {
         font-size: 15px;
       }

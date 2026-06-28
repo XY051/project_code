@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import http from '../../utils/http'
@@ -9,25 +9,22 @@ import TrainingCard from '../../components/TrainingCard.vue'
 
 const router = useRouter()
 
-// 轮播图数据
 const bannerList = ref([])
-// 热门资源数据
+// 鐑棬璧勬簮鏁版嵁
 const hotResourceList = ref([])
-// 热门实训项目数据
+// 鐑棬瀹炶椤圭洰鏁版嵁
 const hotTrainingList = ref([])
-// 热门公告数据
+// 鐑棬鍏憡鏁版嵁
 const hotNewsList = ref([])
-// 数据概览
+// 鏁版嵁姒傝
 const overviewData = ref({
   resourceCount: 0,
   trainingCount: 0,
   userCount: 0,
   labCount: 0
 })
-// 加载状态
 const loading = ref(false)
 
-// 获取轮播图数据
 const getBannerList = async () => {
   try {
     const res = await http.get('/banner/list')
@@ -38,26 +35,25 @@ const getBannerList = async () => {
       })
     }
   } catch (error) {
-    console.error('获取轮播图失败:', error)
+    console.error('鑾峰彇杞挱鍥惧け璐?', error)
   }
 }
 
-// 获取热门虚拟仿真资源（暂用原接口，等待第2人改造后对接 /trainingResource/hot）
+// 鑾峰彇鐑棬铏氭嫙璧勬簮
 const getHotResourceList = async () => {
   try {
-    const res = await http.get('/culturalHeritage/hot?pageNum=1&pageSize=8&orderBy=view_count&orderType=desc')
+    const res = await http.get('/trainingResource/hot?pageNum=1&pageSize=8&orderBy=view_count&orderType=desc')
     if (res.code === 200) {
-      hotResourceList.value = res.data?.records.map(t => {
-        t.coverImage = getImageUrl(t.coverImage)
-        return t
-      }) || []
+      hotResourceList.value = (res.data?.records || []).map(t => ({
+        ...t,
+        coverImage: t.coverImage ? getImageUrl(t.coverImage) : '',
+      }))
     }
   } catch (error) {
-    console.error('获取热门资源失败:', error)
+    console.error('鑾峰彇鐑棬璧勬簮澶辫触:', error)
   }
 }
 
-// 获取热门实训项目（暂用原接口，等待第3人改造后对接 /training/hot）
 const getHotTrainingList = async () => {
   try {
     const res = await http.get('/activity/hot?pageNum=1&pageSize=6&orderBy=view_count&orderType=desc')
@@ -65,11 +61,11 @@ const getHotTrainingList = async () => {
       hotTrainingList.value = res.data?.records || []
     }
   } catch (error) {
-    console.error('获取热门实训项目失败:', error)
+    console.error('鑾峰彇鐑棬瀹炶椤圭洰澶辫触:', error)
   }
 }
 
-// 获取热门公告
+// 鑾峰彇鐑棬鍏憡
 const getHotNewsList = async () => {
   try {
     const res = await http.get('/article/hot?pageNum=1&pageSize=5&orderBy=view_count&orderType=desc')
@@ -80,47 +76,49 @@ const getHotNewsList = async () => {
       }) || []
     }
   } catch (error) {
-    console.error('获取热门公告失败:', error)
+    console.error('鑾峰彇鐑棬鍏憡澶辫触:', error)
   }
 }
 
-// 获取数据概览（门户配置 + 统计数据）
+// 鑾峰彇鏁版嵁姒傝
 const getOverviewData = async () => {
   try {
-    // 尝试获取统计数据概览
-    const res = await http.get('/statistics/overview')
-    if (res.code === 200) {
+    const [resourceRes, labRes, statsRes] = await Promise.all([
+      http.get('/trainingResource/page?pageNum=1&pageSize=1'),
+      http.get('/lab/list'),
+      http.get('/statistics/overview').catch(() => null)
+    ])
+    if (resourceRes.code === 200 || labRes.code === 200 || statsRes?.code === 200) {
       overviewData.value = {
-        resourceCount: res.data.heritageCount || 0,
-        trainingCount: res.data.activityCount || 0,
-        userCount: res.data.userCount || 0,
-        labCount: res.data.videoCount || 0
+        resourceCount: resourceRes.data?.total || 0,
+        trainingCount: statsRes?.data?.activityCount || 0,
+        userCount: statsRes?.data?.userCount || 0,
+        labCount: labRes.data?.length || 0
       }
     }
   } catch (error) {
-    console.error('获取数据概览失败:', error)
+    console.error('鑾峰彇鏁版嵁姒傝澶辫触:', error)
   }
 }
 
-// 跳转到列表页
+// 璺宠浆鍒板垪琛ㄩ〉
 const goToList = (path) => {
   router.push(path)
 }
 
-// 跳转到公告详情
 const goToNewsDetail = (id) => {
   router.push({ path: '/front/newsDetail', query: { id } })
 }
 
-// 快捷入口
+// 蹇嵎鍏ュ彛
 const quickEntries = [
-  { icon: '📚', label: '资源中心', path: '/front/heritage', color: '#667eea' },
-  { icon: '🔬', label: '实训项目', path: '/front/activity', color: '#f093fb' },
-  { icon: '🏫', label: '实验室预约', path: '/front/labBooking', color: '#4facfe' },
-  { icon: '📊', label: '数据统计', path: '/chart', color: '#43e97b' }
+  { icon: '馃摎', label: '璧勬簮涓績', path: '/front/resources', color: '#667eea' },
+  { icon: '馃彨', label: '实验室', path: '/front/labBooking', color: '#4facfe' },
+  { icon: '馃敆', label: '共享开放', path: '/front/openShare', color: '#059669' },
+  { icon: '馃敩', label: '瀹炶椤圭洰', path: '/front/activity', color: '#f093fb' },
+  { icon: '馃搳', label: '鏁版嵁缁熻', path: '/chart', color: '#43e97b' }
 ]
 
-// 初始化数据
 const initData = async () => {
   loading.value = true
   try {
@@ -143,7 +141,7 @@ onMounted(() => {
 
 <template>
   <div class="home-container">
-    <!-- 轮播图区域 -->
+    <!-- 杞挱鍥惧尯鍩?-->
     <div class="banner-section">
       <el-carousel
         v-if="bannerList.length > 0"
@@ -160,7 +158,7 @@ onMounted(() => {
           >
             <div class="banner-content">
               <h2 class="banner-title">{{ item.title }}</h2>
-              <p class="banner-desc">{{ item.description || '虚拟仿真实训平台' }}</p>
+              <p class="banner-desc">{{ item.description || '铏氭嫙瀹炶骞冲彴' }}</p>
             </div>
           </div>
         </el-carousel-item>
@@ -173,7 +171,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- 快捷入口 -->
+    <!-- 蹇嵎鍏ュ彛 -->
     <div class="quick-section">
       <div class="quick-grid">
         <div
@@ -189,44 +187,44 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- 主要内容区域 -->
+    <!-- 涓昏鍐呭鍖哄煙 -->
     <div class="main-content">
-      <!-- 数据概览 -->
+      <!-- 鏁版嵁姒傝 -->
       <section class="section overview-section">
         <div class="section-header">
-          <h2 class="section-title">平台数据概览</h2>
+          <h2 class="section-title">骞冲彴鏁版嵁姒傝</h2>
         </div>
         <div class="overview-grid">
           <div class="overview-card">
             <div class="overview-icon" style="background: linear-gradient(135deg, #667eea, #764ba2)">
-              📚
+              馃摎
             </div>
             <div class="overview-info">
               <span class="overview-value">{{ overviewData.resourceCount }}</span>
-              <span class="overview-label">仿真资源</span>
+              <span class="overview-label">铏氭嫙璧勬簮</span>
             </div>
           </div>
           <div class="overview-card">
             <div class="overview-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c)">
-              🔬
+              馃敩
             </div>
             <div class="overview-info">
               <span class="overview-value">{{ overviewData.trainingCount }}</span>
-              <span class="overview-label">实训项目</span>
+              <span class="overview-label">瀹炶椤圭洰</span>
             </div>
           </div>
           <div class="overview-card">
             <div class="overview-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe)">
-              👥
+              馃懃
             </div>
             <div class="overview-info">
               <span class="overview-value">{{ overviewData.userCount }}</span>
-              <span class="overview-label">注册用户</span>
+              <span class="overview-label">娉ㄥ唽鐢ㄦ埛</span>
             </div>
           </div>
           <div class="overview-card">
             <div class="overview-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7)">
-              🏫
+              馃彨
             </div>
             <div class="overview-info">
               <span class="overview-value">{{ overviewData.labCount }}</span>
@@ -236,16 +234,16 @@ onMounted(() => {
         </div>
       </section>
 
-      <!-- 热门虚拟仿真资源 -->
+      <!-- 鐑棬铏氭嫙璧勬簮 -->
       <section class="section">
         <div class="section-header">
           <div class="section-title-wrapper">
             <div class="title-decoration left"></div>
-            <h2 class="section-title">热门虚拟仿真资源</h2>
+            <h2 class="section-title">鐑棬铏氭嫙璧勬簮</h2>
             <div class="title-decoration right"></div>
           </div>
-          <el-button type="primary" class="more-btn" @click="goToList('/front/heritage')">
-            查看更多
+          <el-button type="primary" class="more-btn" @click="goToList('/front/resources')">
+            鏌ョ湅鏇村
           </el-button>
         </div>
         <div class="resource-grid">
@@ -257,7 +255,7 @@ onMounted(() => {
         </div>
       </section>
 
-      <!-- 最新实训项目 -->
+      <!-- 鏈€鏂板疄璁」鐩?-->
       <section class="section">
         <div class="section-header">
           <div class="section-title-wrapper">
@@ -266,7 +264,7 @@ onMounted(() => {
             <div class="title-decoration right"></div>
           </div>
           <el-button type="primary" class="more-btn" @click="goToList('/front/activity')">
-            更多
+            鏇村
           </el-button>
         </div>
         <div class="training-layout">
@@ -284,7 +282,7 @@ onMounted(() => {
         </div>
       </section>
 
-      <!-- 最新公告 -->
+      <!-- 鏈€鏂板叕鍛?-->
       <section class="section">
         <div class="section-header">
           <div class="section-title-wrapper">
@@ -293,7 +291,7 @@ onMounted(() => {
             <div class="title-decoration right"></div>
           </div>
           <el-button type="primary" class="more-btn" @click="goToList('/front/news')">
-            更多
+            鏇村
           </el-button>
         </div>
         <div class="news-layout">
@@ -305,7 +303,7 @@ onMounted(() => {
               fit="cover"
             >
               <template #error>
-                <div class="image-error">📰</div>
+                <div class="image-error">馃摪</div>
               </template>
             </el-image>
             <div class="main-news-content">
@@ -341,7 +339,6 @@ onMounted(() => {
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
-// 轮播图样式
 .banner-section {
   width: 100%;
 
@@ -418,7 +415,7 @@ onMounted(() => {
   }
 }
 
-// 快捷入口
+// 蹇嵎鍏ュ彛
 .quick-section {
   max-width: 1200px;
   margin: -40px auto 40px;
@@ -450,7 +447,7 @@ onMounted(() => {
         transform: translateY(-4px);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         background: var(--card-color);
-        
+
         .quick-icon {
           transform: scale(1.2);
         }
@@ -475,14 +472,14 @@ onMounted(() => {
   }
 }
 
-// 主要内容区域
+// 涓昏鍐呭鍖哄煙
 .main-content {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px 60px;
 }
 
-// 区块样式
+// 鍖哄潡鏍峰紡
 .section {
   margin-bottom: 60px;
 
@@ -523,14 +520,14 @@ onMounted(() => {
   }
 }
 
-// 数据概览
+// 鏁版嵁姒傝
 .overview-section {
   .section-header {
     justify-content: center;
     margin-bottom: 24px;
     .section-title { font-size: 22px; color: #606266; }
   }
-  
+
   .overview-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -576,14 +573,14 @@ onMounted(() => {
   }
 }
 
-// 资源网格
+// 璧勬簮缃戞牸
 .resource-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
 }
 
-// 实训项目布局
+// 瀹炶椤圭洰甯冨眬
 .training-layout {
   display: flex;
   gap: 24px;
@@ -600,7 +597,7 @@ onMounted(() => {
   }
 }
 
-// 公告布局
+// 鍏憡甯冨眬
 .news-layout {
   display: flex;
   gap: 24px;
@@ -716,7 +713,6 @@ onMounted(() => {
   font-size: 48px;
 }
 
-// 响应式设计
 @media (max-width: 1024px) {
   .quick-section .quick-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -743,7 +739,7 @@ onMounted(() => {
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
       padding: 20px;
-      
+
       .quick-card {
         padding: 16px 12px;
         .quick-icon { font-size: 28px; }

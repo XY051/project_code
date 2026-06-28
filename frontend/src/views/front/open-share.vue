@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { Calendar, Connection, DocumentChecked, Link, Tickets } from "@element-plus/icons-vue";
+import { Calendar, Connection, Document, DocumentChecked, Headset, Monitor, Tickets, VideoCamera } from "@element-plus/icons-vue";
 import http from "../../utils/http";
 import { getImageUrl } from "../../utils/system";
 
@@ -9,9 +9,47 @@ const router = useRouter();
 const resources = ref<any[]>([]);
 const labs = ref<any[]>([]);
 const loading = ref(false);
+const activeShareTab = ref<"resource" | "lab">("resource");
+const activeResourceType = ref("虚拟仿真");
+const showAllResources = ref(false);
 
 const availableResourceCount = computed(() => resources.value.filter((item) => Number(item.availableCount || 0) > 0).length);
 const totalCapacity = computed(() => labs.value.reduce((sum, item) => sum + Number(item.capacity || 0), 0));
+const resourceTypeOptions = ["虚拟仿真", "视频", "音频", "文档"];
+const resourceTypeMeta: Record<string, any> = {
+  虚拟仿真: { icon: Monitor },
+  视频: { icon: VideoCamera },
+  音频: { icon: Headset },
+  文档: { icon: Document },
+};
+
+const shareTabs = [
+  { label: "实训资源", value: "resource" },
+  { label: "实训室", value: "lab" },
+] as const;
+
+const resourceTypeFilters = computed(() =>
+  resourceTypeOptions.map((item) => ({
+    label: item,
+    value: item,
+    count: resources.value.filter((resource) => resource.resourceType === item).length,
+    ...resourceTypeMeta[item],
+  }))
+);
+
+const filteredResources = computed(() =>
+  resources.value.filter((item) => item.resourceType === activeResourceType.value)
+);
+const visibleResources = computed(() =>
+  showAllResources.value ? filteredResources.value : filteredResources.value.slice(0, 6)
+);
+const hasMoreResources = computed(() => filteredResources.value.length > 6);
+
+const needsApply = (item: any) => item.resourceType === "虚拟仿真";
+
+const goResourceDetail = (resourceId: number) => {
+  router.push({ path: "/front/resourceDetail", query: { id: resourceId } });
+};
 
 const safeImage = (url?: string) => {
   if (!url) return "";
@@ -38,6 +76,11 @@ const goResourceApply = (resourceId?: number) => {
 
 const goLabReserve = (labId?: number) => {
   router.push({ path: "/front/labReserve", query: labId ? { labId } : {} });
+};
+
+const setResourceType = (value: string) => {
+  activeResourceType.value = value;
+  showAllResources.value = false;
 };
 
 onMounted(async () => {
@@ -74,71 +117,88 @@ onMounted(async () => {
     </section>
 
     <main class="content" v-loading="loading">
-      <section class="flow-section">
-        <article class="flow-card">
-          <el-icon><Tickets /></el-icon>
-          <h2>资源开放申请</h2>
-          <p>选择带实验入口的虚拟仿真资源，提交使用目的和时间；管理员审核通过后占用资源名额。</p>
-          <el-button type="primary" :icon="Link" @click="goResourceApply()">去申请</el-button>
-        </article>
-        <article class="flow-card">
-          <el-icon><Calendar /></el-icon>
-          <h2>实训室预约</h2>
-          <p>先提供统一用户入口和预约数据，后续实训室模块成员可以继续接入排期冲突、容量校验等规则。</p>
-          <el-button type="primary" :icon="Calendar" @click="goLabReserve()">去预约</el-button>
-        </article>
-        <article class="flow-card">
-          <el-icon><DocumentChecked /></el-icon>
-          <h2>我的共享开放</h2>
-          <p>查看申请审核、预约进度和资源使用状态；资源使用完成后可以在这里归还。</p>
-          <el-button type="primary" :icon="DocumentChecked" @click="router.push('/front/myOpenShare')">查看记录</el-button>
-        </article>
-      </section>
+      <nav class="share-switch" aria-label="共享开放类型切换">
+        <button
+          v-for="item in shareTabs"
+          :key="item.value"
+          type="button"
+          :class="{ active: activeShareTab === item.value }"
+          @click="activeShareTab = item.value"
+        >
+          {{ item.label }}
+        </button>
+      </nav>
 
-      <section class="section-head">
-        <div>
-          <h2>可申请资源</h2>
-          <p>资源数为 0 时不能直接进入实验，可以先提交申请等待协调。</p>
-        </div>
-        <el-button @click="router.push('/front/resources')">全部资源</el-button>
-      </section>
-      <section class="resource-grid">
-        <article v-for="item in resources.slice(0, 6)" :key="item.id" class="resource-card">
-          <div class="resource-cover">
-            <el-image v-if="item.coverImage" :src="safeImage(item.coverImage)" fit="cover" />
-            <div v-else class="cover-fallback">{{ item.openType || "虚拟仿真" }}</div>
-          </div>
+      <template v-if="activeShareTab === 'resource'">
+        <section class="section-head resource-head">
           <div>
-            <el-tag :type="Number(item.availableCount || 0) > 0 ? 'success' : 'warning'">
-              可用 {{ item.availableCount || 0 }}
-            </el-tag>
-            <h3>{{ item.name }}</h3>
-            <p>{{ item.intro || "暂无简介" }}</p>
+            <h2>{{ activeResourceType }}资源</h2>
+            <p v-if="activeResourceType === '虚拟仿真'">虚拟仿真资源需要先申请，通过后才能进入使用。</p>
+            <p v-else>视频、音频和文档资源可直接浏览查看，不需要提交资源使用申请。</p>
           </div>
-          <footer>
-            <span>{{ item.openType || "开放共享" }}</span>
-            <el-button type="primary" text @click="goResourceApply(item.id)">申请</el-button>
-          </footer>
-        </article>
-      </section>
+          <nav class="resource-type-switch" aria-label="共享开放资源类型切换">
+            <button
+              v-for="item in resourceTypeFilters"
+              :key="item.value"
+              type="button"
+              :class="{ active: activeResourceType === item.value }"
+              @click="setResourceType(item.value)"
+            >
+              <el-icon><component :is="item.icon" /></el-icon>
+              <span>{{ item.label }}</span>
+              <em>{{ item.count }}</em>
+            </button>
+          </nav>
+        </section>
 
-      <section class="section-head lab-head">
-        <div>
-          <h2>实训室开放入口</h2>
-          <p>当前先做样式和预约入口，数据来自现有实训室模块。</p>
+        <section class="resource-grid">
+          <article v-for="item in visibleResources" :key="item.id" class="resource-card">
+            <div class="resource-cover">
+              <el-image v-if="item.coverImage" :src="safeImage(item.coverImage)" fit="cover" />
+              <div v-else class="cover-fallback">{{ item.openType || "虚拟仿真" }}</div>
+            </div>
+            <div>
+              <el-tag v-if="needsApply(item)" :type="Number(item.availableCount || 0) > 0 ? 'success' : 'warning'">
+                可用 {{ item.availableCount || 0 }}
+              </el-tag>
+              <el-tag v-else type="success">可直接浏览</el-tag>
+              <h3>{{ item.name }}</h3>
+              <p>{{ item.intro || "暂无简介" }}</p>
+            </div>
+            <footer>
+              <span>{{ item.openType || "开放共享" }}</span>
+              <el-button v-if="needsApply(item)" type="primary" text @click="goResourceApply(item.id)">申请</el-button>
+              <el-button v-else type="primary" text @click="goResourceDetail(item.id)">查看</el-button>
+            </footer>
+          </article>
+        </section>
+        <div v-if="hasMoreResources" class="more-row">
+          <el-button @click="showAllResources = !showAllResources">
+            {{ showAllResources ? "收起资源" : `查看全部资源（${filteredResources.length}）` }}
+          </el-button>
         </div>
-      </section>
-      <section class="lab-grid">
-        <article v-for="item in labs" :key="item.id" class="lab-card">
-          <div class="lab-icon"><el-icon><Connection /></el-icon></div>
+        <el-empty v-if="!filteredResources.length" description="暂无该类型资源" />
+      </template>
+
+      <template v-else>
+        <section class="section-head lab-head">
           <div>
-            <h3>{{ item.name }}</h3>
-            <p>{{ item.location || "地点待补充" }} · 容量 {{ item.capacity || "-" }}</p>
-            <span>{{ item.openTime || "开放时间待补充" }}</span>
+            <h2>实训室开放入口</h2>
+            <p>当前先做样式和预约入口，数据来自现有实训室模块。</p>
           </div>
-          <el-button type="primary" text @click="goLabReserve(item.id)">预约</el-button>
-        </article>
-      </section>
+        </section>
+        <section class="lab-grid">
+          <article v-for="item in labs" :key="item.id" class="lab-card">
+            <div class="lab-icon"><el-icon><Connection /></el-icon></div>
+            <div>
+              <h3>{{ item.name }}</h3>
+              <p>{{ item.location || "地点待补充" }} · 容量 {{ item.capacity || "-" }}</p>
+              <span>{{ item.openTime || "开放时间待补充" }}</span>
+            </div>
+            <el-button type="primary" text @click="goLabReserve(item.id)">预约</el-button>
+          </article>
+        </section>
+      </template>
     </main>
   </div>
 </template>
@@ -156,14 +216,19 @@ onMounted(async () => {
 .hero-metrics strong { display: block; font-size: 30px; line-height: 1; }
 .hero-metrics span { display: block; margin-top: 8px; font-size: 13px; opacity: .85; }
 .content { max-width: 1180px; margin: 0 auto; padding: 26px 24px 48px; }
-.flow-section { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.flow-card { background: #fff; border: 1px solid #e6edf5; border-radius: 8px; padding: 20px; min-height: 230px; display: flex; flex-direction: column; align-items: flex-start; }
-.flow-card > .el-icon { width: 42px; height: 42px; border-radius: 8px; background: #eff6ff; color: #2563eb; font-size: 22px; display: flex; align-items: center; justify-content: center; }
-.flow-card h2 { margin: 16px 0 10px; color: #172033; font-size: 20px; }
-.flow-card p { color: #526173; line-height: 1.7; flex: 1; }
-.section-head { margin: 34px 0 16px; display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; }
+.share-switch { display: flex; justify-content: center; gap: 78px; margin: 0 0 24px; border-bottom: 1px solid #e8edf4; }
+.share-switch button { position: relative; height: 56px; border: 0; background: transparent; color: #303642; font-size: 20px; font-weight: 700; cursor: pointer; }
+.share-switch button.active { color: #1478d4; }
+.share-switch button.active::after { content: ""; position: absolute; left: 50%; bottom: -1px; width: 68px; height: 4px; border-radius: 99px; background: #1478d4; transform: translateX(-50%); }
+.section-head { margin: 0 0 16px; display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; }
 .section-head h2 { margin: 0 0 6px; color: #172033; font-size: 24px; }
-.section-head p { color: #64748b; }
+.section-head p { margin: 0; color: #64748b; }
+.resource-head { align-items: flex-start; }
+.resource-type-switch { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; max-width: 620px; }
+.resource-type-switch button { height: 38px; padding: 0 10px; border: 1px solid #dbe5f0; border-radius: 999px; background: #fff; color: #475569; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: color .18s ease, border-color .18s ease, background .18s ease; }
+.resource-type-switch button.active { color: #1478d4; border-color: #93c5fd; background: #eff6ff; }
+.resource-type-switch em { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: #f1f5f9; color: #64748b; font-style: normal; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; }
+.resource-type-switch button.active em { background: #dbeafe; color: #1d4ed8; }
 .resource-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .resource-card { background: #fff; border: 1px solid #e6edf5; border-radius: 8px; overflow: hidden; min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; }
 .resource-card > div:not(.resource-cover), .resource-card footer { padding-left: 18px; padding-right: 18px; }
@@ -173,6 +238,7 @@ onMounted(async () => {
 .resource-card h3 { margin: 14px 0 10px; color: #172033; font-size: 17px; line-height: 1.45; }
 .resource-card p { color: #526173; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .resource-card footer { margin-top: 18px; padding-bottom: 16px; display: flex; align-items: center; justify-content: space-between; color: #64748b; }
+.more-row { display: flex; justify-content: center; margin-top: 22px; }
 .lab-head { align-items: center; }
 .lab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .lab-card { background: #fff; border: 1px solid #e6edf5; border-radius: 8px; padding: 16px; display: grid; grid-template-columns: 44px 1fr auto; gap: 14px; align-items: center; }
@@ -182,8 +248,10 @@ onMounted(async () => {
 .lab-card span { color: #64748b; font-size: 13px; }
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; }
-  .flow-section, .resource-grid, .lab-grid { grid-template-columns: 1fr; }
+  .resource-grid, .lab-grid { grid-template-columns: 1fr; }
   .section-head { align-items: flex-start; flex-direction: column; }
+  .resource-type-switch { justify-content: flex-start; max-width: 100%; }
+  .share-switch { gap: 44px; }
 }
 @media (max-width: 560px) {
   .hero-inner, .content { padding-left: 14px; padding-right: 14px; }
