@@ -27,6 +27,8 @@ const initForm = {
   profile: "",
   role: "",
   roleFlag: "",
+  userType: "",
+  institution: "",
 };
 // 表单数据
 const form = ref({ ...initForm });
@@ -339,9 +341,24 @@ onMounted(async () => {
         </el-form-item>
         <el-form-item label="角色" prop="role">
           <el-select v-model="form.role" placeholder="请选择角色" style="width: 100%">
-            <el-option label="管理员" value="admin" />
-            <el-option label="用户" value="user" />
+            <el-option
+              v-for="item in roleList"
+              :key="item.roleCode"
+              :label="item.roleName"
+              :value="item.roleCode"
+            />
           </el-select>
+        </el-form-item>
+        <el-form-item label="用户类型" prop="userType">
+          <el-select v-model="form.userType" placeholder="请选择用户类型" style="width: 100%">
+            <el-option label="学生" value="student" />
+            <el-option label="教师" value="teacher" />
+            <el-option label="管理员" value="admin" />
+            <el-option label="社会用户" value="social" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="所属院校" prop="institution">
+          <el-input v-model="form.institution" placeholder="请输入所属院校" />
         </el-form-item>
         <el-form-item label="个人介绍" prop="profile">
           <el-input

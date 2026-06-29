@@ -119,14 +119,20 @@ export const menuList = [
             buttons: ["新增", "编辑", "删除"],
           },
           {
-            name: "资源监控",
-            path: "/resourceMonitor",
-            tableName: "",
-            buttons: [],
-          },
-          {
             name: "教学监控",
             path: "/teachingMonitor",
+            tableName: "monitor",
+            buttons: ["新增", "编辑", "删除", "查看"],
+          },
+          {
+            name: "指导记录",
+            path: "/teachingGuidance",
+            tableName: "guidance",
+            buttons: ["新增", "编辑", "删除", "查看"],
+          },
+          {
+            name: "资源监控",
+            path: "/resourceMonitor",
             tableName: "",
             buttons: [],
           },
@@ -147,6 +153,18 @@ export const menuList = [
             name: "平台人员",
             path: "/user",
             tableName: "user",
+            buttons: ["新增", "编辑", "删除"],
+          },
+          {
+            name: "角色管理",
+            path: "/role",
+            tableName: "role",
+            buttons: ["新增", "编辑", "删除"],
+          },
+          {
+            name: "权限管理",
+            path: "/permission",
+            tableName: "permission",
             buttons: ["新增", "编辑", "删除"],
           },
           {

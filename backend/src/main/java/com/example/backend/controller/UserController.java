@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.backend.common.model.PageResult;
@@ -70,6 +71,7 @@ public class UserController {
         return Result.success(res);
     }
 
+    @SaCheckPermission("user:add")
     @Operation(summary ="新增用户")
     @PostMapping("/add")
     private BaseResponse<Boolean> add(@RequestBody AddUserRequest userRequest) {
@@ -77,6 +79,7 @@ public class UserController {
         return Result.success(res);
     }
 
+    @SaCheckPermission("user:del")
     @Operation(summary ="删除用户")
     @GetMapping("/del")
     private BaseResponse<Boolean> del(@RequestParam("id") Integer id) {
@@ -84,6 +87,7 @@ public class UserController {
         return Result.success(res);
     }
 
+    @SaCheckPermission("user:del")
     @Operation(summary ="批量删除用户")
     @PostMapping("/batchDel")
     private BaseResponse<Boolean> batchDel(@RequestBody List<Integer> ids) {
@@ -91,6 +95,7 @@ public class UserController {
         return Result.success(res);
     }
 
+    @SaCheckPermission("user:edit")
     @Operation(summary ="编辑用户")
     @PostMapping("/edit")
     private BaseResponse<Boolean> edit(@RequestBody User userRequest) {

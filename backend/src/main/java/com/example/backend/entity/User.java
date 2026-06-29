@@ -67,6 +67,16 @@ public class User implements Serializable {
     private String role;
 
     /**
+     * 用户类型 (student/teacher/admin/social)
+     */
+    private String userType;
+
+    /**
+     * 所属院校
+     */
+    private String institution;
+
+    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

@@ -26,6 +26,22 @@
            title: "用户管理",
          },
        },
+       {
+         path: "/role",
+         name: "Role",
+         component: () => import("@/views/system/role.vue"),
+         meta: {
+           title: "角色管理",
+         },
+       },
+       {
+         path: "/permission",
+         name: "Permission",
+         component: () => import("@/views/system/permission.vue"),
+         meta: {
+           title: "权限管理",
+         },
+       },
         {
           path: "/notice",
           name: "Notice",
@@ -245,9 +261,17 @@
        {
          path: "/teachingMonitor",
          name: "TeachingMonitor",
-         component: () => import("../views/system/placeholder.vue"),
+         component: () => import("../views/system/monitor.vue"),
          meta: {
            title: "教学监控",
+         },
+       },
+       {
+         path: "/teachingGuidance",
+         name: "TeachingGuidance",
+         component: () => import("../views/system/teachingGuidance.vue"),
+         meta: {
+           title: "指导记录",
          },
        },
        {
